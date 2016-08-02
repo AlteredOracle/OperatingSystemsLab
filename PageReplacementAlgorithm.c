@@ -252,7 +252,7 @@ void lru()
 			for( cnt=0; cnt < f; cnt++)
 			{
 				current=fr[cnt];
-				for( c = i; c > 0; c–)
+				for( c = i; c > 0; c--)
 				{
 					if(current != pg[c])
 						count[cnt]++;
