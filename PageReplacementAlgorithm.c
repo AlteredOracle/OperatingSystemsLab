@@ -38,8 +38,8 @@ int main()
 			case 2: optimal();
 					break;
 
-			// case 3: lru();
-			// 		break;
+			case 3: lru();
+			 		break;
 
 			// case 4: lfu();
 			// 		break;
@@ -219,7 +219,7 @@ void lru()
 	printf("\nEnter frame size:");
 	scanf("%d",&f);
 
-	//initilizing distance and frame array
+	//initilizing dist         ance and frame array
 	for( i=0; i<f; i++)
 	{
 		count[i] = 0;
@@ -234,17 +234,20 @@ void lru()
 		{
 			if(temp==fr[j])
 			{
-				flag = 1;
+				flag = 1; //this means that the character is already there in one of the frames.
 				break;
 			}
 		}
 
-		if( (flag==0) && (k<f) )
+
+		//if flag == 0 i.e. the given character is not there in the frames.
+		if( (flag==0) && (k<f) ) //initially k is 0.
 		{
 			fault++;
 			fr[k] = temp;
 			k++;
 		}
+		//k is to keep the count of number of frames which have been filled.
 
 		else if( (flag==0) && (k==f) )
 		{
@@ -252,7 +255,8 @@ void lru()
 			for( cnt=0; cnt < f; cnt++)
 			{
 				current=fr[cnt];
-				for( c = i; c > 0; c--)
+				count[cnt] = 0;
+				for( c = i; c >= 0; c--)
 				{
 					if(current != pg[c])
 						count[cnt]++;
