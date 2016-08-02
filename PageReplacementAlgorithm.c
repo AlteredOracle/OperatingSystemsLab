@@ -142,6 +142,8 @@ void optimal()
 
 	for(i = 0; i<n; i++)
 	{
+
+		//printf("This is %d iteration\n",i );
 		flag = 0;
 		temp = pg[i];
 
@@ -176,19 +178,21 @@ void optimal()
 					else 
 						break;
 				}
+				//In tha above loop we are keeping the count of the occurences of each character in the frames.
 			}
 			
 			max = 0;
 
-			for (m = 0; m < f; ++i)
+			for (m = 0; m < f; ++m)
 			{
 				if(count[m] > max)
 				{
 					max = count[m];
-					p = m;
+					p = m; // p is the index of the frame which has the character whose count value is maximum
 				}
 			}
-			fr[p] = temp;
+			fr[p] = temp; // replacing the current reference character with the character whose occurence is 
+						// after a long time in the reference string.
 		}
 		printf("\n");
 
@@ -197,8 +201,87 @@ void optimal()
 			printf("%d\t",fr[x] );
 		}
 
+
+
 	}
 
 	printf("The total number of faults = %d\n",fault );
+	getchar();
+}
+
+void lru()
+{
+	int count[10], i, j, k, fault, f, flag, temp, current, c, dist, max, m, cnt, p, x;
+	fault = 0;
+	dist = 0;
+	k = 0;
+	
+	printf("\nEnter frame size:");
+	scanf("%d",&f);
+
+	//initilizing distance and frame array
+	for( i=0; i<f; i++)
+	{
+		count[i] = 0;
+		fr[i] = -1;
+	}
+
+	for( i = 0; i<n; i++)
+	{
+		flag=0;
+		temp = pg[i];
+		for( j=0; j<f; j++)
+		{
+			if(temp==fr[j])
+			{
+				flag = 1;
+				break;
+			}
+		}
+
+		if( (flag==0) && (k<f) )
+		{
+			fault++;
+			fr[k] = temp;
+			k++;
+		}
+
+		else if( (flag==0) && (k==f) )
+		{
+			fault++;
+			for( cnt=0; cnt < f; cnt++)
+			{
+				current=fr[cnt];
+				for( c = i; c > 0; c–)
+				{
+					if(current != pg[c])
+						count[cnt]++;
+					else
+						break;
+				}
+			}
+
+			max = 0;
+
+			for(m=0; m<f; m++)
+			{
+				if( count[m] > max)
+				{
+					max = count[m];
+					p = m;
+				}
+			}
+
+			fr[p] = temp;
+		}
+
+		printf("\n");
+		
+		for( x=0; x<f; x++)
+		{
+			printf("%d\t",fr[x]);
+		}
+	}
+	printf("\nTotal number of faults=%d",fault);
 	getchar();
 }
